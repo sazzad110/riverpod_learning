@@ -40,7 +40,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
         title: Text("State Provider"),
         actions: [
           IconButton(onPressed: (){
-            ref.invalidate(counterProvier);
+            //ref.invalidate(counterProvier);
+            ref.refresh(counterProvier);
+
           }, icon: Icon(Icons.refresh))
         ],
       ),
@@ -51,8 +53,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // ref.read(counterProvier.notifier).state++;
-          ref.read(counterProvier.notifier).update((state) => state + 1);
+          ref.read(counterProvier.notifier).state++;
+        
         },
         child: Icon(Icons.add),
       ),
