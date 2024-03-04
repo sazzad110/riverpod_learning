@@ -4,9 +4,10 @@ Appbar i added refresh button , when click it the conter value will be set to ze
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_learning/counter.dart';
 
-// creating StateProvider
-final counterProvier = StateProvider<int>((ref) => 0);
+// creating State notifierProvider
+final counterProvier = StateNotifierProvider<CounterDemo,int>((ref) => CounterDemo());
 void main() {
   runApp(
     ProviderScope(
@@ -35,23 +36,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   Widget build(BuildContext context) {
     final count = ref.watch(counterProvier);  // used to observer provider state in build method whenveer provier val change it rebuilds the widget.
 
-    ref.listen(counterProvier,((previous,next) {
-      if(next == 5) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Alert ! the value is $next")));
-      }
-    }
-    ));
-
     return Scaffold(
       appBar: AppBar(
         title: Text("State Provider"),
-        actions: [
-          IconButton(onPressed: (){
-            //ref.invalidate(counterProvier);
-            ref.refresh(counterProvier);
-
-          }, icon: Icon(Icons.refresh))
-        ],
       ),
       body: Center(
           child: Text(
@@ -60,7 +47,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(counterProvier.notifier).state++;  // observed/read provider val once
+          ref.read(counterProvier.notifier).increment();  // observed/read provider val once
         
         },
         child: Icon(Icons.add),
