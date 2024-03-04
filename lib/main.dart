@@ -1,34 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_learning/home.dart';
 
-final nameProvider = Provider<String>(
-  (ref) {
-    return "Hello Sazzad";
-
-});
-
+final nameProvider = StateProvider<String>((ref) => "hello sazzad");
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
-
-  
+  runApp(
+    ProviderScope(
+      child: MaterialApp(
+        title: 'Counter App',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(),
+      ),
+    ),
+  );
 }
 
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  // This widget is the root of your application.
+class MyHomePage extends ConsumerWidget {
+  const MyHomePage({Key? key});
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Counter App"),
       ),
-      home: const MyHomePage(),
-    );
+      body: Center(child: Consumer(builder: (context, ref, child) {
+        final name = ref.watch(nameProvider);
+        return Text(name);
+      })),
+      
+      );
   }
 }
-
