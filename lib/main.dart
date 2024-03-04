@@ -1,3 +1,7 @@
+/*
+Appbar i added refresh button , when click it the conter value will be set to zero
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,25 +31,31 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
-
     final count = ref.watch(counterProvier);
+
     return Scaffold(
-      appBar: AppBar(title: Text("riverpod flutter")),
-      body: Center(child: Text(
+      appBar: AppBar(
+        title: Text("State Provider"),
+        actions: [
+          IconButton(onPressed: (){
+            ref.invalidate(counterProvier);
+          }, icon: Icon(Icons.refresh))
+        ],
+      ),
+      body: Center(
+          child: Text(
         count.toString(),
         style: TextStyle(fontSize: 30),
       )),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-
-          ref.read(counterProvier.notifier).state++;
+        onPressed: () {
+          // ref.read(counterProvier.notifier).state++;
+          ref.read(counterProvier.notifier).update((state) => state + 1);
         },
         child: Icon(Icons.add),
       ),
-
     );
   }
 }
