@@ -33,7 +33,14 @@ class MyHomePage extends ConsumerStatefulWidget {
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final count = ref.watch(counterProvier);
+    final count = ref.watch(counterProvier);  // used to observer provider state in build method whenveer provier val change it rebuilds the widget.
+
+    ref.listen(counterProvier,((previous,next) {
+      if(next == 5) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Alert ! the value is $next")));
+      }
+    }
+    ));
 
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +60,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(counterProvier.notifier).state++;
+          ref.read(counterProvier.notifier).state++;  // observed/read provider val once
         
         },
         child: Icon(Icons.add),
