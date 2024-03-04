@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final nameProvider = StateProvider<String>((ref) => "hello sazzad");
+// creating StateProvider
+final counterProvier = StateProvider<int>((ref) => 0);
 void main() {
   runApp(
     ProviderScope(
@@ -28,18 +29,23 @@ class MyHomePage extends ConsumerStatefulWidget {
 class _MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
-  void initState() {
-    super.initState();
-    final name = ref.read(nameProvider);    // ref communicate with riverpod
-    print(name);
-  }
-  @override
   Widget build(BuildContext context) {
 
-    final name = ref.watch(nameProvider);
+    final count = ref.watch(counterProvier);
     return Scaffold(
       appBar: AppBar(title: Text("riverpod flutter")),
-      body: Center(child: Text(name)),
+      body: Center(child: Text(
+        count.toString(),
+        style: TextStyle(fontSize: 30),
+      )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+
+          ref.read(counterProvier.notifier).state++;
+        },
+        child: Icon(Icons.add),
+      ),
+
     );
   }
 }
