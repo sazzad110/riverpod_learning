@@ -17,22 +17,29 @@ void main() {
   );
 }
 
-
-
-class MyHomePage extends ConsumerWidget {
-  const MyHomePage({Key? key});
+class MyHomePage extends ConsumerStatefulWidget {
+  const MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  // ignore: library_private_types_in_public_api
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends ConsumerState<MyHomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    final name = ref.read(nameProvider);    // ref communicate with riverpod
+    print(name);
+  }
+  @override
+  Widget build(BuildContext context) {
+
+    final name = ref.watch(nameProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Counter App"),
-      ),
-      body: Center(child: Consumer(builder: (context, ref, child) {
-        final name = ref.watch(nameProvider);
-        return Text(name);
-      })),
-      
-      );
+      appBar: AppBar(title: Text("riverpod flutter")),
+      body: Center(child: Text(name)),
+    );
   }
 }
